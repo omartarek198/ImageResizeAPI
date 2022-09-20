@@ -42,8 +42,8 @@ exports.__esModule = true;
 var supertest_1 = __importDefault(require("supertest"));
 var index_1 = __importDefault(require("../index"));
 var request = (0, supertest_1["default"])(index_1["default"]);
-describe("Tests endpoint responses", function () {
-    it("gets the api endpoint", function () { return __awaiter(void 0, void 0, void 0, function () {
+describe("Test endpoint (/api) is running", function () {
+    it("gets api status", function () { return __awaiter(void 0, void 0, void 0, function () {
         var response;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -52,6 +52,51 @@ describe("Tests endpoint responses", function () {
                     response = _a.sent();
                     expect(response.status).toBe(200);
                     console.log(response.status);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
+describe("Tests endpoint response to input", function () {
+    it("tests on correct input format", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get("/api?width=100&height=300&name=1.jpg")];
+                case 1:
+                    response = _a.sent();
+                    expect(response.text).toBe("100 300 1.jpg");
+                    console.log(response.text);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
+describe("Tests endpoint response to input", function () {
+    it("tests on incorrect input format", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get("/api?width=b&height=300a")];
+                case 1:
+                    response = _a.sent();
+                    expect(response.text).toBe("error in input");
+                    console.log(response.text);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
+describe("Tests endpoint response to input", function () {
+    it("tests on negative values", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, request.get("/api?width=-300&height=300")];
+                case 1:
+                    response = _a.sent();
+                    expect(response.text).toBe("error in input");
+                    console.log(response.text);
                     return [2 /*return*/];
             }
         });
