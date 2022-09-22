@@ -20,40 +20,28 @@ app.get("/api", async (req, res) => {
   W = Number(req.query.width);
   H = Number(req.query.height);
 
-    name = req.query.name as string;
-    
+  name = req.query.name as string;
+
   if (isNaN(W) || isNaN(H) || name == undefined || W < 0 || H < 0) {
     res.send("error in input");
   } else {
-      
-      
     if (!DoesImageExist(input_dir + name)) {
       res.send("Image does not exist");
     } else {
-        console.log("here")
-        let out_name: string =  W + "_" + H + "_" +name;   
-      if (DoesImageExist(output_dir+out_name)) {
+      console.log("here");
+      let out_name: string = W + "_" + H + "_" + name;
+      if (DoesImageExist(output_dir + out_name)) {
         //use cached images
-          
-                       res.sendFile("thumbnails/" + out_name, { root: __dirname })
 
-
-          
+        res.sendFile("thumbnails/" + out_name, { root: __dirname });
       } else {
-          await resize(W, H, name);
-          
-          if (DoesImageExist(output_dir + out_name))
-          {
-            
-              res.sendFile("thumbnails/" + out_name, { root: __dirname })
-          }  
-          else {
-            res.send("image not found")  
-              
-          }
-          
-         
-         
+        await resize(W, H, name);
+
+        if (DoesImageExist(output_dir + out_name)) {
+          res.sendFile("thumbnails/" + out_name, { root: __dirname });
+        } else {
+          res.send("image not found");
+        }
       }
     }
   }
@@ -66,36 +54,27 @@ app.listen(port, () => {
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 async function getImg(path: string) {
-    console.log("waiting")
-    var img = await fs.readFile("D:\\backend\\ImageResize\\src\\thumbnails\\1.jpg", function (err: string, data: string) {
-        // console.log(data);
-        
+  console.log("waiting");
+  var img = await fs.readFile(
+    "D:\\backend\\ImageResize\\src\\thumbnails\\1.jpg",
+    function (err: string, data: string) {}
+  );
 
-    })
-    
-        //   res.send(W + " " + H + " " + name);
-        //  res.sendFile("thumbnails/"+out_name, { root: __dirname })
-          console.log(img)
-         return img
+  console.log(img);
+  return img;
 }
-async function  resize(
+async function resize(
   width: number,
   height: number,
 
   name: string
 ) {
-
-
-    let out_name: string =  width + "_" + height + "_" +name;  
- await sharp(input_dir + name)
+  let out_name: string = width + "_" + height + "_" + name;
+  await sharp(input_dir + name)
     .resize(width, height)
-     .toFile(output_dir + out_name, function (): void { 
-         
-            }
-     );
-    
-    await sleep(1000)
+    .toFile(output_dir + out_name, function (): void {});
 
+  await sleep(1000);
 }
 
 export function DoesImageExist(path: string): boolean {
