@@ -49,6 +49,5 @@ describe("Testing thumbnail creation", () => {
       const response = await request.get("/images?width=300&height=300&name=1.jpg");
 
       expect(DoesImageExist(output_dir +"300_300_1.jpg" )).toBe(true);
-    console.log(response.text);
   });
 });

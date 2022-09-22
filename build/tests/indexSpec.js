@@ -131,7 +131,6 @@ describe("Testing thumbnail creation", function () {
                 case 1:
                     response = _a.sent();
                     expect((0, index_2.DoesImageExist)(index_1.output_dir + "300_300_1.jpg")).toBe(true);
-                    console.log(response.text);
                     return [2 /*return*/];
             }
         });
