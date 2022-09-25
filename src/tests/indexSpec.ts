@@ -1,7 +1,9 @@
 import supertest from "supertest";
 import app, { output_dir } from "../index";
-import { DoesImageExist } from "../index";
+import { DoesImageExist, resize } from "../utilits";
 import { input_dir } from "../index";
+import { randomBytes } from "crypto";
+ 
 
 const request = supertest(app);
 describe("Test endpoint (/images) is running", () => {
@@ -44,6 +46,7 @@ describe("Testing DoesImageExist function", () => {
 
 
 
+
 describe("Testing thumbnail creation", () => {
   it("testing new image", async () => {
       const response = await request.get("/images?width=300&height=300&name=1.jpg");
@@ -51,3 +54,21 @@ describe("Testing thumbnail creation", () => {
       expect(DoesImageExist(output_dir +"300_300_1.jpg" )).toBe(true);
   });
 });
+
+
+
+describe("Testing resize function", function(){
+  
+
+
+  it("Passing a valid image", async () => {
+    
+  await resize(10, 150,"1.jpg")
+    
+
+    expect( DoesImageExist(output_dir+"10_150_1.jpg")).toBeTrue()
+  });
+});
+
+
+ 
