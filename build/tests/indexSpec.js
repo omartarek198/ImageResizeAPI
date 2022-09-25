@@ -64,8 +64,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 exports.__esModule = true;
 var supertest_1 = __importDefault(require("supertest"));
 var index_1 = __importStar(require("../index"));
+var utilits_1 = require("../utilits");
 var index_2 = require("../index");
-var index_3 = require("../index");
 var request = (0, supertest_1["default"])(index_1["default"]);
 describe("Test endpoint (/images) is running", function () {
     it("gets api status", function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -114,12 +114,12 @@ describe("Tests endpoint response to input", function () {
 });
 describe("Testing DoesImageExist function", function () {
     it("Passing an existent image", function () {
-        expect((0, index_2.DoesImageExist)(index_3.input_dir + "1.jpg")).toBe(true);
+        expect((0, utilits_1.DoesImageExist)(index_2.input_dir + "1.jpg")).toBe(true);
     });
 });
 describe("Testing DoesImageExist function", function () {
     it("Passing a nonexistent image", function () {
-        expect((0, index_2.DoesImageExist)(index_3.input_dir + "randomfilename")).toBe(false);
+        expect((0, utilits_1.DoesImageExist)(index_2.input_dir + "randomfilename")).toBe(false);
     });
 });
 describe("Testing thumbnail creation", function () {
@@ -130,7 +130,21 @@ describe("Testing thumbnail creation", function () {
                 case 0: return [4 /*yield*/, request.get("/images?width=300&height=300&name=1.jpg")];
                 case 1:
                     response = _a.sent();
-                    expect((0, index_2.DoesImageExist)(index_1.output_dir + "300_300_1.jpg")).toBe(true);
+                    expect((0, utilits_1.DoesImageExist)(index_1.output_dir + "300_300_1.jpg")).toBe(true);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
+describe("Testing resize function", function () {
+    var _this = this;
+    it("Passing a valid image", function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, (0, utilits_1.resize)(10, 150, "1.jpg")];
+                case 1:
+                    _a.sent();
+                    expect((0, utilits_1.DoesImageExist)(index_1.output_dir + "10_150_1.jpg")).toBeTrue();
                     return [2 /*return*/];
             }
         });
